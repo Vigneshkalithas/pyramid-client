@@ -8,11 +8,18 @@ import { Api } from "../Api/Api";
 function MovieDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState([]);
-  // const navigate = useNavigate();
+  const [token, setToken] = useState();
+  const navigate = useNavigate();
   // const movie = movies[id];
   let fetchData = async () => {
     try {
-      let result = await axios.get(`${Api.api}/movies/getone/${id}`);
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      let result = await axios.get(`${Api.api}/movies/getone/${id}`, {
+        headers: headers,
+      });
       setMovie(result.data.data);
     } catch (error) {
       console.log(error);
@@ -21,6 +28,11 @@ function MovieDetails() {
 
   useEffect(() => {
     fetchData();
+    const Tok = localStorage.getItem("token");
+    setToken(Tok);
+    if (!Tok) {
+      navigate("/");
+    }
   }, []);
   return (
     <>
