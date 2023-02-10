@@ -27,11 +27,12 @@ function MovieDetails() {
   };
 
   useEffect(() => {
-    fetchData();
     const Tok = localStorage.getItem("token");
     setToken(Tok);
     if (!Tok) {
       navigate("/");
+    } else {
+      fetchData();
     }
   }, []);
   return (

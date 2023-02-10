@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 function MovileList() {
   const [movies, SetMovies] = useState([]);
-  const [token, setToken] = useState();
+  const [token, setToken] = useState("");
   const navigate = useNavigate();
   const Logout = async () => {
     try {
@@ -28,11 +28,11 @@ function MovileList() {
 
     // }
   };
-  let fetchData = async () => {
+  let fetchData = async (Tok) => {
     try {
       const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${Tok}`,
       };
       console.log(headers);
       let result = await axios.get(`${Api.api}/movies/getall`, {
@@ -47,13 +47,7 @@ function MovileList() {
 
   useEffect(() => {
     const Tok = localStorage.getItem("token");
-    setToken(Tok);
-    // myTimeout();
-    fetchData();
-
-    if (!Tok) {
-      navigate("/");
-    }
+    fetchData(Tok);
   }, []);
   return (
     <div>
